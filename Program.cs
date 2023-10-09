@@ -7,6 +7,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// TODO: Cleanup later
+builder.Services.AddScoped<IQuestService, QuestService>();
+builder.Services.AddScoped<IQuestRepository, QuestRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,4 @@
-namespace GoalFundApi
+namespace GoalFundApi.Models
 {
     public enum Frequency
     {
