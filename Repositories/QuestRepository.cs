@@ -2,7 +2,7 @@ using GoalFundApi.Models;
 
 public interface IQuestRepository
 {
-    List<Quest> GetAllQuests();
+    Task<SearchResults<Quest>> GetAllQuests();
 }
 
 public class QuestRepository : IQuestRepository
@@ -11,7 +11,7 @@ public class QuestRepository : IQuestRepository
     {
         new Quest
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("3f384a19-45be-4661-8ae5-eab45f04920b"),
             TaskName = "Do the dishes",
             Completed = false,
             Reward = 1,
@@ -19,7 +19,7 @@ public class QuestRepository : IQuestRepository
         },
         new Quest
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("ff6d61e0-44cf-4640-8681-d4d28186c14e"),
             TaskName = "Study Swift",
             Completed = false,
             Reward = 1,
@@ -27,7 +27,7 @@ public class QuestRepository : IQuestRepository
         },
         new Quest
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse("b4da5e97-f5d1-405c-8c7e-ccfc5a20a21a"),
             TaskName = "Do taxes",
             Completed = true,
             Reward = 3,
@@ -35,8 +35,15 @@ public class QuestRepository : IQuestRepository
         }
     };
 
-    public List<Quest> GetAllQuests()
+    public async Task<SearchResults<Quest>> GetAllQuests()
     {
-        return _examples;
+        var results = new SearchResults<Quest>
+        {
+            ReturnedResults = _examples.Count(),
+            TotalResults = _examples.Count() * 10,  // TODO: Just a placeholder. 
+            Results = _examples
+        };
+
+        return results;
     }
 }

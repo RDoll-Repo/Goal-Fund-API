@@ -2,7 +2,7 @@ using GoalFundApi.Models;
 
 public interface IQuestService
 {
-    List<Quest> GetAllQuests();
+    Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuests();
 }
 
 public class QuestService : IQuestService
@@ -12,10 +12,20 @@ public class QuestService : IQuestService
     {
         _repo = repo;
     }
-    public List<Quest> GetAllQuests()
+    public async Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuests()
     {
-        var results = _repo.GetAllQuests();
+        var results = await _repo.GetAllQuests();
 
-        return results;
+        var response = new ApiResponse<SearchMeta, SearchQuestsViewModel>
+        {
+            Meta = new SearchMeta
+            {
+                ReturnedResults = results.ReturnedResults,
+                TotalResults = results.TotalResults
+            },
+            Data = new SearchQuestsViewModel(results.Results)
+        };
+
+        return response;
     }
 }

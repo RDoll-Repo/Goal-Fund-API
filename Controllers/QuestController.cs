@@ -15,15 +15,19 @@ public class QuestController : ControllerBase
 
     // Get
     [HttpGet]
-    public IEnumerable<Quest> GetQuests()
+    public async Task<ActionResult<ApiResponse<SearchMeta, SearchQuestsViewModel>>> GetQuests()
     {
-        var results = _service.GetAllQuests();
+        var results = await _service.GetAllQuests();
 
         return results; 
     }
 
     // Fetch
-
+    [HttpGet("id")]
+    public Quest FetchQuest()
+    {
+        return null;
+    }
     // Add 
 
     // Update
