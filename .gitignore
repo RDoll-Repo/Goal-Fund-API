@@ -1,0 +1,6 @@
+bin/
+obj/
+inflight_trace_dump/
+node_modules/
+**/appsettings.*.json
+*.DS_Store
