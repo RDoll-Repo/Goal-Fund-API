@@ -21,19 +21,4 @@ public class QuestController : ControllerBase
 
         return results; 
     }
-
-    // Fetch
-    [HttpGet("id")]
-    public Quest FetchQuest()
-    {
-        return null;
-    }
-    // Add 
-
-    // Update
-
-    // Delete
-
-    // Complete
-
 }

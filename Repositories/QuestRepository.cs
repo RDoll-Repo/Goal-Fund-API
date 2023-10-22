@@ -37,6 +37,7 @@ public class QuestRepository : IQuestRepository
 
     public async Task<SearchResults<Quest>> GetAllQuests()
     {
+        // TODO: This will be asynchronous once we implement the database
         var results = new SearchResults<Quest>
         {
             ReturnedResults = _examples.Count(),
