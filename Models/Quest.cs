@@ -1,6 +1,8 @@
+using OmniGLM_API.db;
+
 namespace GoalFundApi.Models
 {
-    public class Quest
+    public class Quest : IEntity<Guid>
     {
         public Guid Id { get; set; }
         public string TaskName { get; set; }
