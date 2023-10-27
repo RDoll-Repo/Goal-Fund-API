@@ -26,10 +26,5 @@ namespace OmniGLM_API.db
                 .EnableSensitiveDataLogging()
                 .UseSnakeCaseNamingConvention();
         }
-
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-            
-        // }
     }
 }
