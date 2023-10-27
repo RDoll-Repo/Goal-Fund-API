@@ -8,9 +8,12 @@ namespace GoalFundApi.Controllers;
 public class QuestController : ControllerBase
 {
     public IQuestService _service;
-    public QuestController(IQuestService service)
+    public ApplicationConfig _config;
+
+    public QuestController(IQuestService service, ApplicationConfig config)
     {
         _service = service;
+        _config = config;
     }
 
     // Get
