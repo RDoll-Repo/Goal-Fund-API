@@ -1,3 +1,5 @@
+using GoalFundApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +12,12 @@ builder.Services.AddSwaggerGen();
 // TODO: Cleanup later
 builder.Services.AddScoped<IQuestService, QuestService>();
 builder.Services.AddScoped<IQuestRepository, QuestRepository>();
+
+
+var configManager = builder.Configuration;
+var config = new ApplicationConfig();
+configManager.Bind("Application", config);
+builder.Services.AddSingleton<ApplicationConfig>(provider => config);
 
 var app = builder.Build();
 

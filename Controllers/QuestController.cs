@@ -8,15 +8,18 @@ namespace GoalFundApi.Controllers;
 public class QuestController : ControllerBase
 {
     public IQuestService _service;
-    public QuestController(IQuestService service)
+    public ApplicationConfig _config;
+    public QuestController(IQuestService service, ApplicationConfig config)
     {
         _service = service;
+        _config = config;
     }
 
     // Get
     [HttpGet]
     public async Task<ActionResult<ApiResponse<SearchMeta, SearchQuestsViewModel>>> GetQuests()
     {
+        System.Console.WriteLine(_config.DatabaseConnectionString);
         var results = await _service.GetAllQuests();
 
         return results; 
