@@ -1,4 +1,5 @@
 using GoalFundApi.Models;
+using OmniGLM_API.db;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +13,15 @@ builder.Services.AddSwaggerGen();
 // TODO: Cleanup later
 builder.Services.AddScoped<IQuestService, QuestService>();
 builder.Services.AddScoped<IQuestRepository, QuestRepository>();
+builder.Services.AddScoped(typeof(IEFCoreService<,>), typeof(EFCoreService<,>));
 
 
 var configManager = builder.Configuration;
 var config = new ApplicationConfig();
 configManager.Bind("Application", config);
 builder.Services.AddSingleton<ApplicationConfig>(provider => config);
+
+builder.Services.AddDbContext<ApplicationContext>();
 
 var app = builder.Build();
 

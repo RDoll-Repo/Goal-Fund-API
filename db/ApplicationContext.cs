@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using GoalFundApi.Models;
 
 namespace OmniGLM_API.db
@@ -9,6 +8,8 @@ namespace OmniGLM_API.db
         private readonly ApplicationConfig _appConfig;
         private string _connectionString => _appConfig.DatabaseConnectionString;
         public DbSet<Quest> Quests { get; set; }
+        public DbSet<Goal> Goals { get; set; }
+        public DbSet<Requirement> Requirements { get; set; }
 
         public ApplicationContext(
             ApplicationConfig appConfig,
@@ -26,9 +27,9 @@ namespace OmniGLM_API.db
                 .UseSnakeCaseNamingConvention();
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
+        // {
             
-        }
+        // }
     }
 }
