@@ -13,11 +13,19 @@ namespace GoalFundApi.Models
         // TODO: Remove at end of Phase 1
         public Quest() {}
 
-        public Quest(QuestPayload payload)
+        public Quest(CreateQuestPayload payload)
         {
             Id = Guid.NewGuid();
             TaskName = payload.TaskName;
             Completed = false;
+            Reward = payload.Reward;
+            Frequency = payload.Frequency;
+        }
+
+        public void SetValues(UpdateQuestPayload payload)
+        {
+            TaskName = payload.TaskName;
+            Completed = payload.Completed;
             Reward = payload.Reward;
             Frequency = payload.Frequency;
         }
@@ -33,10 +41,16 @@ namespace GoalFundApi.Models
         }
     }
 
-    public class QuestPayload
+    public class CreateQuestPayload
     {
         public string TaskName { get; set; }
         public int Reward { get; set; }
         public Frequency Frequency { get; set; } = Frequency.ONCE;
+    }
+
+    // TODO: Probably a temp implementation
+    public class UpdateQuestPayload : CreateQuestPayload
+    {
+        public bool Completed { get; set; }
     }
 }

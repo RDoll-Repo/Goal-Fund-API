@@ -2,9 +2,10 @@ using GoalFundApi.Models;
 
 public interface IQuestService
 {
-    Task<ApiResponse<Quest>> CreateQuest(QuestPayload payload);
-    Task<ApiResponse<Quest>> FetchQuest(Guid id);
-    Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuests();
+    Task<ApiResponse<Quest>> CreateQuestAsync(CreateQuestPayload payload);
+    Task<ApiResponse<Quest>> FetchQuestAsync(Guid id);
+    Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuestsAsync();
+    Task<ApiResponse<Quest>> UpdateQuestAsync(Guid id, UpdateQuestPayload updatedQuest);
 }
 
 public class QuestService : IQuestService
@@ -15,9 +16,9 @@ public class QuestService : IQuestService
         _repo = repo;
     }
 
-    public async Task<ApiResponse<Quest>> CreateQuest(QuestPayload payload)
+    public async Task<ApiResponse<Quest>> CreateQuestAsync(CreateQuestPayload payload)
     {
-        var result = await _repo.CreateQuest(new Quest(payload));
+        var result = await _repo.CreateQuestAsync(new Quest(payload));
 
         return new ApiResponse<Quest>
         {
@@ -25,9 +26,9 @@ public class QuestService : IQuestService
         };
     }
 
-    public async Task<ApiResponse<Quest>> FetchQuest(Guid id)
+    public async Task<ApiResponse<Quest>> FetchQuestAsync(Guid id)
     {
-        var result = await _repo.FetchQuest(id);
+        var result = await _repo.FetchQuestAsync(id);
 
         return new ApiResponse<Quest>
         {
@@ -35,9 +36,10 @@ public class QuestService : IQuestService
         };
     }
 
-    public async Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuests()
+    // TODO: Replace with proper search and/or get all for user
+    public async Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuestsAsync()
     {
-        var results = await _repo.GetAllQuests();
+        var results = await _repo.GetAllQuestsAsync();
 
         var response = new ApiResponse<SearchMeta, SearchQuestsViewModel>
         {
@@ -52,4 +54,24 @@ public class QuestService : IQuestService
         return response;
     }
 
+    public async Task<ApiResponse<Quest>> UpdateQuestAsync(Guid id, UpdateQuestPayload payload)
+    {
+        var updatedQuest = await _repo.FetchQuestAsync(id);
+
+        if (updatedQuest is null) 
+        {
+            // TODO: Replace with actual 404
+            System.Console.WriteLine("Not found");
+            return null;
+        }
+
+        updatedQuest.SetValues(payload);
+
+        var updated = await _repo.UpdateQuestAsync(updatedQuest);
+
+        return new ApiResponse<Quest>
+        {
+            Data = updated
+        };
+    }
 }
