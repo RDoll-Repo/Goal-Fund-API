@@ -28,7 +28,4 @@ public class ApiPayload<TMeta, TData>
     public TData Data { get; set; }
 }
 
-public class ApiPayload<TData> : ApiPayload<Empty, TData>
-{
-    
-}
+public class ApiPayload<TData> : ApiPayload<Empty, TData> {}

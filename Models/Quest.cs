@@ -10,7 +10,6 @@ namespace GoalFundApi.Models
         public int Reward { get; set; }
         public Frequency Frequency { get; set; }
 
-        // TODO: Remove at end of Phase 1
         public Quest() {}
 
         public Quest(CreateQuestPayload payload)

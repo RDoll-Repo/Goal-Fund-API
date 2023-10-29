@@ -29,6 +29,7 @@ namespace OmniGLM_API.db
         {
             _context = context;
         }
+        
         public async Task<TEntity> CreateAsync(TEntity entity)
         {
             var createdEntity =_context.Add(entity);
