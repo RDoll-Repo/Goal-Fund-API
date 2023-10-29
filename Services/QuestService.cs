@@ -2,7 +2,11 @@ using GoalFundApi.Models;
 
 public interface IQuestService
 {
-    Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuests();
+    Task<ApiResponse<Quest>> CreateQuestAsync(CreateQuestPayload payload);
+    Task<ApiResponse<Quest>> FetchQuestAsync(Guid id);
+    Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuestsAsync();
+    Task<ApiResponse<Quest>> UpdateQuestAsync(Guid id, UpdateQuestPayload updatedQuest);
+    Task DeleteQuestAsync(Guid id);
 }
 
 public class QuestService : IQuestService
@@ -12,9 +16,31 @@ public class QuestService : IQuestService
     {
         _repo = repo;
     }
-    public async Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuests()
+
+    public async Task<ApiResponse<Quest>> CreateQuestAsync(CreateQuestPayload payload)
     {
-        var results = await _repo.GetAllQuests();
+        var result = await _repo.CreateQuestAsync(new Quest(payload));
+
+        return new ApiResponse<Quest>
+        {
+            Data = result
+        };
+    }
+
+    public async Task<ApiResponse<Quest>> FetchQuestAsync(Guid id)
+    {
+        var result = await _repo.FetchQuestAsync(id);
+
+        return new ApiResponse<Quest>
+        {
+            Data = result
+        };
+    }
+
+    // TODO: Replace with proper search and/or get all for user
+    public async Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuestsAsync()
+    {
+        var results = await _repo.GetAllQuestsAsync();
 
         var response = new ApiResponse<SearchMeta, SearchQuestsViewModel>
         {
@@ -27,5 +53,41 @@ public class QuestService : IQuestService
         };
 
         return response;
+    }
+
+    public async Task<ApiResponse<Quest>> UpdateQuestAsync(Guid id, UpdateQuestPayload payload)
+    {
+        var updatedQuest = await _repo.FetchQuestAsync(id);
+
+        if (updatedQuest is null) 
+        {
+            // TODO: Replace with actual 404
+            Console.WriteLine("Not found");
+            return null;
+        }
+
+        updatedQuest.SetValues(payload);
+
+        var updated = await _repo.UpdateQuestAsync(updatedQuest);
+
+        return new ApiResponse<Quest>
+        {
+            Data = updated
+        };
+    }
+
+    public async Task DeleteQuestAsync(Guid id)
+    {
+        var existing = await _repo.FetchQuestAsync(id);
+
+        if (existing is null)
+        {
+            // TODO: Actual 404
+            Console.WriteLine("Not found");
+        }
+        else 
+        {
+            await _repo.DeleteQuestAsync(existing);
+        }
     }
 }

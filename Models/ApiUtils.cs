@@ -21,3 +21,11 @@ public class SearchResults<TData>
     public int TotalResults { get; set; }
     public IEnumerable<TData> Results { get; set; }
 }
+
+public class ApiPayload<TMeta, TData>
+{
+    public TMeta Meta { get; set; }
+    public TData Data { get; set; }
+}
+
+public class ApiPayload<TData> : ApiPayload<Empty, TData> {}
