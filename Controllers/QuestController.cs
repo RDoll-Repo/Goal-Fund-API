@@ -16,7 +16,22 @@ public class QuestController : ControllerBase
         _config = config;
     }
 
-    // Get
+    [HttpPost]
+    public async Task<ActionResult<ApiResponse<Quest>>> CreateQuest(ApiPayload<QuestPayload> payload)
+    {
+        var result = await _service.CreateQuest(payload.Data);
+
+        return result;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ApiResponse<Quest>>> FetchQuest(Guid id)
+    {
+        var result = await _service.FetchQuest(id);
+
+        return result;
+    }
+
     [HttpGet]
     public async Task<ActionResult<ApiResponse<SearchMeta, SearchQuestsViewModel>>> GetQuests()
     {
@@ -25,11 +40,4 @@ public class QuestController : ControllerBase
         return results; 
     }
 
-    [HttpPost]
-    public async Task<ActionResult<ApiResponse<Quest>>> CreateQuest(ApiPayload<QuestPayload> payload)
-    {
-        var result = await _service.CreateQuest(payload.Data);
-
-        return result;
-    }
 }

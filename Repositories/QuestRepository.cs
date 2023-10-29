@@ -3,8 +3,9 @@ using OmniGLM_API.db;
 
 public interface IQuestRepository
 {
-    Task<SearchResults<Quest>> GetAllQuests();
     Task<Quest> CreateQuest(Quest quest);
+    Task<Quest?> FetchQuest(Guid id);
+    Task<SearchResults<Quest>> GetAllQuests();
 }
 
 public class QuestRepository : IQuestRepository
@@ -43,6 +44,20 @@ public class QuestRepository : IQuestRepository
         }
     };
 
+    public async Task<Quest> CreateQuest(Quest quest)
+    {
+        var result = await _efCoreService.CreateAsync(quest);
+
+        return result;
+    }
+
+    public async Task<Quest?> FetchQuest(Guid id)
+    {
+        var result = await _efCoreService.FetchAsync(id);
+
+        return result;
+    }
+
     public async Task<SearchResults<Quest>> GetAllQuests()
     {
         // TODO: This will be asynchronous once we implement the database
@@ -56,10 +71,4 @@ public class QuestRepository : IQuestRepository
         return results;
     }
 
-    public async Task<Quest> CreateQuest(Quest quest)
-    {
-        var result = await _efCoreService.CreateAsync(quest);
-
-        return result;
-    }
 }
