@@ -6,6 +6,7 @@ public interface IQuestService
     Task<ApiResponse<Quest>> FetchQuestAsync(Guid id);
     Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuestsAsync();
     Task<ApiResponse<Quest>> UpdateQuestAsync(Guid id, UpdateQuestPayload updatedQuest);
+    Task DeleteQuestAsync(Guid id);
 }
 
 public class QuestService : IQuestService
@@ -61,7 +62,7 @@ public class QuestService : IQuestService
         if (updatedQuest is null) 
         {
             // TODO: Replace with actual 404
-            System.Console.WriteLine("Not found");
+            Console.WriteLine("Not found");
             return null;
         }
 
@@ -73,5 +74,20 @@ public class QuestService : IQuestService
         {
             Data = updated
         };
+    }
+
+    public async Task DeleteQuestAsync(Guid id)
+    {
+        var existing = await _repo.FetchQuestAsync(id);
+
+        if (existing is null)
+        {
+            // TODO: Actual 404
+            Console.WriteLine("Not found");
+        }
+        else 
+        {
+            await _repo.DeleteQuestAsync(existing);
+        }
     }
 }

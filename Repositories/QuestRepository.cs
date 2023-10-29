@@ -7,6 +7,7 @@ public interface IQuestRepository
     Task<Quest?> FetchQuestAsync(Guid id);
     Task<SearchResults<Quest>> GetAllQuestsAsync();
     Task<Quest> UpdateQuestAsync(Quest quest);
+    Task DeleteQuestAsync(Quest quest);
 }
 
 public class QuestRepository : IQuestRepository
@@ -52,5 +53,10 @@ public class QuestRepository : IQuestRepository
         var results = await _efCoreService.UpdateAsync(quest);
 
         return results;
+    }
+
+    public async Task DeleteQuestAsync(Quest quest)
+    {
+        await _efCoreService.DeleteAsync(quest);
     }
 }

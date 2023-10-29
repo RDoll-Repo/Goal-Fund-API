@@ -15,6 +15,7 @@ namespace OmniGLM_API.db
         Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> QueryableWhere(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> UpdateAsync(TEntity entity);
+        Task DeleteAsync(TEntity entity);
     }
 
     public class EFCoreService<TEntity, TIndex> : IEFCoreService<TEntity, TIndex> 
@@ -60,6 +61,13 @@ namespace OmniGLM_API.db
             await _context.SaveChangesAsync();
 
             return updatedEntity.Entity;
+        }
+
+        public async Task DeleteAsync(TEntity entity)
+        {
+            _context.Remove(entity);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

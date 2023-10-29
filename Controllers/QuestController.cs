@@ -21,7 +21,7 @@ public class QuestController : ControllerBase
     {
         var result = await _service.CreateQuestAsync(payload.Data);
 
-        return result;
+        return Created("", result);
     }
 
     [HttpGet("{id}")]
@@ -51,4 +51,11 @@ public class QuestController : ControllerBase
         return results;
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteQuestAsync(Guid id)
+    {
+        await _service.DeleteQuestAsync(id);
+
+        return NoContent();
+    }
 }
