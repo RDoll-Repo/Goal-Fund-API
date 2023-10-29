@@ -13,6 +13,7 @@ namespace OmniGLM_API.db
         Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity?> FetchAsync(TIndex id);
         IQueryable<TEntity> QueryableWhere(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> CreateAsync(TEntity entity);
     }
 
     public class EFCoreService<TEntity, TIndex> : IEFCoreService<TEntity, TIndex> 
@@ -42,5 +43,14 @@ namespace OmniGLM_API.db
          public IQueryable<TEntity> QueryableWhere(
             Expression<Func<TEntity, bool>> predicate
         ) => _dbSet.Where(predicate);
+
+        public async Task<TEntity> CreateAsync(TEntity entity)
+        {
+            var dbEntity =_context.Add(entity);
+
+            await _context.SaveChangesAsync();
+
+            return dbEntity.Entity;
+        }
     }
 }

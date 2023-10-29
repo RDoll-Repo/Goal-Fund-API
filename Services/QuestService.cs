@@ -3,6 +3,7 @@ using GoalFundApi.Models;
 public interface IQuestService
 {
     Task<ApiResponse<SearchMeta, SearchQuestsViewModel>> GetAllQuests();
+    Task<ApiResponse<Quest>> CreateQuest(QuestPayload payload);
 }
 
 public class QuestService : IQuestService
@@ -27,5 +28,15 @@ public class QuestService : IQuestService
         };
 
         return response;
+    }
+
+    public async Task<ApiResponse<Quest>> CreateQuest(QuestPayload payload)
+    {
+        var result = await _repo.CreateQuest(new Quest(payload));
+
+        return new ApiResponse<Quest>
+        {
+            Data = result
+        };
     }
 }

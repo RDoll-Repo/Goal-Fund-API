@@ -24,4 +24,12 @@ public class QuestController : ControllerBase
 
         return results; 
     }
+
+    [HttpPost]
+    public async Task<ActionResult<ApiResponse<Quest>>> CreateQuest(ApiPayload<QuestPayload> payload)
+    {
+        var result = await _service.CreateQuest(payload.Data);
+
+        return result;
+    }
 }

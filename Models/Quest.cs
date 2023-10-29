@@ -9,6 +9,18 @@ namespace GoalFundApi.Models
         public bool Completed { get; set; }
         public int Reward { get; set; }
         public Frequency Frequency { get; set; }
+
+        // TODO: Remove at end of Phase 1
+        public Quest() {}
+
+        public Quest(QuestPayload payload)
+        {
+            Id = Guid.NewGuid();
+            TaskName = payload.TaskName;
+            Completed = false;
+            Reward = payload.Reward;
+            Frequency = payload.Frequency;
+        }
     }
 
     public class SearchQuestsViewModel
@@ -19,5 +31,12 @@ namespace GoalFundApi.Models
         {
             Quests = quests;
         }
+    }
+
+    public class QuestPayload
+    {
+        public string TaskName { get; set; }
+        public int Reward { get; set; }
+        public Frequency Frequency { get; set; } = Frequency.ONCE;
     }
 }

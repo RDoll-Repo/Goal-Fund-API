@@ -1,12 +1,20 @@
 using GoalFundApi.Models;
+using OmniGLM_API.db;
 
 public interface IQuestRepository
 {
     Task<SearchResults<Quest>> GetAllQuests();
+    Task<Quest> CreateQuest(Quest quest);
 }
 
 public class QuestRepository : IQuestRepository
 {
+    public IEFCoreService<Quest, Guid> _efCoreService;
+
+    public QuestRepository(IEFCoreService<Quest, Guid> efCoreService)
+    {
+        _efCoreService = efCoreService;
+    }
     private static readonly List<Quest> _examples = new()
     {
         new Quest
@@ -46,5 +54,12 @@ public class QuestRepository : IQuestRepository
         };
 
         return results;
+    }
+
+    public async Task<Quest> CreateQuest(Quest quest)
+    {
+        var result = await _efCoreService.CreateAsync(quest);
+
+        return result;
     }
 }
