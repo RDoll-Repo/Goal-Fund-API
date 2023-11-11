@@ -10,22 +10,17 @@ namespace GoalFundApi.Models
         public bool Completed { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? CompletedAt { get; set; }
-        public IEnumerable<Requirement>? Requirements { get; set; }
+        public IEnumerable<Guid>? Requirements { get; set; }
 
         public Goal() {}
 
-        public Goal(CreateGoalPayload payload, List<Requirement>? requirements)
+        public Goal(CreateGoalPayload payload)
         {
             Id = Guid.NewGuid();
             Name = payload.Name;
             Cost = payload.Cost;
             Completed = false;
             CreatedAt = DateTime.UtcNow;
-            
-            if (requirements is not null)
-            {
-                Requirements = requirements;
-            }
         }
     }
 

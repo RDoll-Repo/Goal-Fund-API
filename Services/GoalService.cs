@@ -7,21 +7,26 @@ public interface IGoalService
 
 public class GoalService : IGoalService
 {
-    public IGoalRepository _repo;
+    public IGoalRepository _goalRepo;
+    public IRequirementRepository _reqRepo;
 
-    public GoalService(IGoalRepository repo)
+    public GoalService(IGoalRepository goalRepo, IRequirementRepository reqRepo)
     {
-        _repo = repo;
+        _goalRepo = goalRepo;
+        _reqRepo = reqRepo;
     }
 
     public async Task<ApiResponse<Goal>> CreateGoalAsync(CreateGoalPayload payload)
     {
+        var newGoal = new Goal(payload);
+
+        var result = await _goalRepo.CreateGoalAsync(newGoal);
+
         // Separate out requirements from payload
-        var requirements = payload.Requirements.Select(r => new Requirement(r)).ToList();
+        var requirements = payload.Requirements.Select(r => new Requirement(r, newGoal.Id)).ToList();
 
-        var newGoal = new Goal(payload, requirements);
-
-        var result = await _repo.CreateGoalAsync(newGoal);
+        // This seems like a fucking antipattern to me. TODO: do it better
+        requirements.ForEach(async r => await _reqRepo.CreateRequirementAsync(r));
 
         return new ApiResponse<Goal>
         {
