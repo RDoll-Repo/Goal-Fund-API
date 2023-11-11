@@ -12,6 +12,7 @@ public interface IQuestService
 public class QuestService : IQuestService
 {
     public IQuestRepository _repo;
+    
     public QuestService(IQuestRepository repo)
     {
         _repo = repo;

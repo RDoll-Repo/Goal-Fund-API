@@ -8,8 +8,31 @@ namespace GoalFundApi.Models
         public string Name { get; set; }
         public int Cost { get; set; }
         public bool Completed { get; set; }
-        public DateOnly CreatedAt { get; set; }
-        public DateOnly CompletedAt { get; set; }
-        public Requirement[]? Requirements { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? CompletedAt { get; set; }
+        public IEnumerable<Requirement>? Requirements { get; set; }
+
+        public Goal() {}
+
+        public Goal(CreateGoalPayload payload, List<Requirement>? requirements)
+        {
+            Id = Guid.NewGuid();
+            Name = payload.Name;
+            Cost = payload.Cost;
+            Completed = false;
+            CreatedAt = DateTime.UtcNow;
+            
+            if (requirements is not null)
+            {
+                Requirements = requirements;
+            }
+        }
+    }
+
+    public class CreateGoalPayload
+    {
+        public string Name { get; set; }
+        public int Cost { get; set; }
+        public string[] Requirements { get; set; }
     }
 }

@@ -9,5 +9,12 @@ namespace GoalFundApi.Models
         public bool Completed { get; set; }
 
         public Guid GoalId { get; set; }
+
+        public Requirement(string requirement)
+        {
+            Id = Guid.NewGuid();
+            Name = requirement;
+            Completed = false;
+        }
     }
 }
