@@ -19,14 +19,18 @@ public class GoalService : IGoalService
     public async Task<ApiResponse<Goal>> CreateGoalAsync(CreateGoalPayload payload)
     {
         var newGoal = new Goal(payload);
+        
+        var requirements = payload.Requirements.Select(r => new Requirement(r, newGoal.Id));
+
+        newGoal.Requirements = requirements.ToList();
 
         var result = await _goalRepo.CreateGoalAsync(newGoal);
 
         // Separate out requirements from payload
-        var requirements = payload.Requirements.Select(r => new Requirement(r, newGoal.Id)).ToList();
+        // var requirements = payload.Requirements.Select(r => new Requirement(r, newGoal.Id)).ToList();
 
-        // This seems like a fucking antipattern to me. TODO: do it better
-        requirements.ForEach(async r => await _reqRepo.CreateRequirementAsync(r));
+        // // This seems like a fucking antipattern to me. TODO: do it better
+        // requirements.ForEach(async r => await _reqRepo.CreateRequirementAsync(r));
 
         return new ApiResponse<Goal>
         {

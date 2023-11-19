@@ -10,7 +10,7 @@ namespace GoalFundApi.Models
         public bool Completed { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? CompletedAt { get; set; }
-        public IEnumerable<Requirement>? Requirements { get; set; }
+        public ICollection<Requirement>? Requirements { get; set; }
 
         public Goal() {}
 
