@@ -10,6 +10,8 @@ namespace GoalFundApi.Models
 
         public Guid GoalId { get; set; }
 
+        public Requirement() {}
+
         public Requirement(string requirement, Guid newGoalId)
         {
             Id = Guid.NewGuid();
