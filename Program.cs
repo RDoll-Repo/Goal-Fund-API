@@ -15,7 +15,6 @@ builder.Services.AddScoped<IQuestService, QuestService>();
 builder.Services.AddScoped<IGoalService, GoalService>();
 builder.Services.AddScoped<IQuestRepository, QuestRepository>();
 builder.Services.AddScoped<IGoalRepository, GoalRepository>();
-builder.Services.AddScoped<IRequirementRepository, RequirementRepository>();
 builder.Services.AddScoped(typeof(IEFCoreService<,>), typeof(EFCoreService<,>));
 
 
