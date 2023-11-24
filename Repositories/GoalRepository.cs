@@ -4,6 +4,7 @@ using OmniGLM_API.db;
 public interface IGoalRepository
 {
     Task<Goal> CreateGoalAsync(Goal goal);
+    Task<Goal?> FetchGoalAsync(Guid id);
 }
 
 public class GoalRepository : IGoalRepository
@@ -18,6 +19,13 @@ public class GoalRepository : IGoalRepository
     public async Task<Goal> CreateGoalAsync(Goal goal)
     {
         var result = await _efCoreService.CreateAsync(goal);
+
+        return result;
+    }
+
+    public async Task<Goal?> FetchGoalAsync(Guid id)
+    {
+        var result = await _efCoreService.FetchAsync(id);
 
         return result;
     }

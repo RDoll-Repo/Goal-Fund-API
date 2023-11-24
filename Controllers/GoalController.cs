@@ -23,4 +23,12 @@ public class GoalController : ControllerBase
 
         return Created("", result);
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ApiResponse<Goal>>> FetchGoal(Guid id)
+    {
+        var result = await _service.FetchGoalAsync(id);
+
+        return result;
+    }
 }
