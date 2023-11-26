@@ -1,4 +1,5 @@
 using GoalFundApi.Models;
+using Microsoft.EntityFrameworkCore;
 using OmniGLM_API.db;
 
 public interface IGoalRepository
@@ -25,7 +26,9 @@ public class GoalRepository : IGoalRepository
 
     public async Task<Goal?> FetchGoalAsync(Guid id)
     {
-        var result = await _efCoreService.FetchAsync(id);
+        var result = await _efCoreService.QueryableWhere(g => g.Id == id)
+            .Include(g => g.Requirements)
+            .FirstOrDefaultAsync();
 
         return result;
     }

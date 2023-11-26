@@ -51,7 +51,7 @@ namespace OmniGLM_API.db
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
-         public IQueryable<TEntity> QueryableWhere(
+        public IQueryable<TEntity> QueryableWhere(
             Expression<Func<TEntity, bool>> predicate
         ) => _dbSet.Where(predicate);
 
